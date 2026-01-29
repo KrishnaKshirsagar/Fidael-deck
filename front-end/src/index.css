@@ -13,16 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===== Chrome Autofill Fix (MUI compatible) ===== */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill {
-  -webkit-text-fill-color: #000 !important;
-  -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
-  transition: background-color 9999s ease-out 0s;
-}
-
 a {
   font-weight: 500;
   color: #646cff;

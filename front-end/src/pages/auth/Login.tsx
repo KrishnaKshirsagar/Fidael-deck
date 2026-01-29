@@ -46,7 +46,7 @@ export const Login = () => {
       <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
         <Avatar
           sx={{
-            bgcolor: "secondary.main",
+            bgcolor: "primary.main",
             width: 56,
             height: 56,
           }}

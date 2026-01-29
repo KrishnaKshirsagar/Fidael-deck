@@ -39,7 +39,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         palette: {
           mode,
           primary: {
-            main: "#1976d2",
+            main: "#1d5e7a",
           },
           secondary: {
             main: "#dc004e",
@@ -47,6 +47,35 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
           background: {
             default: mode === "light" ? "#f5f5f5" : "#121212",
             paper: mode === "light" ? "#ffffff" : "#1e1e1e",
+          },
+        },
+        components: {
+          MuiTextField: {
+            defaultProps: {
+              variant: "outlined",
+            },
+          },
+          MuiOutlinedInput: {
+            styleOverrides: {
+              root: {
+                "& input:-webkit-autofill": {
+                  WebkitBoxShadow: `0 0 0 100px ${mode === "dark" ? "#1e1e1e" : "#fff"} inset`,
+                  WebkitTextFillColor: mode === "dark" ? "#fff" : "#000",
+                  //caretColor: "#fff",
+                  borderRadius: "inherit",
+                },
+              },
+            },
+          },
+          MuiInputLabel: {
+            styleOverrides: {
+              root: {
+                color: mode === "dark" ? "#b0b0b0" : undefined,
+                "&.Mui-focused": {
+                  color: "#1d5e7a",
+                },
+              },
+            },
           },
         },
       }),
