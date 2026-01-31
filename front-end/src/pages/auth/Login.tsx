@@ -1,23 +1,20 @@
-import { useState } from "react";
-import { useNavigate, useLocation, Link as RouterLink } from "react-router-dom";
-import {
-  Avatar,
-  TextField,
-  Button,
-  Link,
-  Grid,
-  CircularProgress,
-  Box,
-  Typography,
-} from "@mui/material";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Avatar, Box, Typography, Button } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import * as Yup from "yup";
+import axios from "axios";
+
 import { useAuth } from "../../contexts/AuthContext";
 import { AuthContainer } from "../../components/auth/AuthContainer";
+import { DynamicForm, type Field } from "../../components/forms/DynamicForm";
 
 export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [resendTimer, setResendTimer] = useState(0);
+  const [email, setEmail] = useState("");
 
   const { login, isLoading } = useAuth();
   const navigate = useNavigate();
@@ -25,16 +22,95 @@ export const Login = () => {
 
   const from = location.state?.from?.pathname || "/dashboard";
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // ⏱ Resend OTP countdown
+  useEffect(() => {
+    if (resendTimer <= 0) return;
+
+    const interval = setInterval(() => {
+      setResendTimer((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [resendTimer]);
+
+  // 🧩 Dynamic fields
+  const fields: Field[] = [
+    {
+      name: "email",
+      label: "Email Address",
+      type: "email",
+      autoComplete: "username",
+      disabled: otpSent,
+    },
+    ...(otpSent
+      ? [
+          {
+            name: "otp",
+            label: "Enter OTP",
+            type: "text",
+            inputMode: "numeric",
+            autoComplete: "one-time-code",
+          } as Field,
+        ]
+      : []),
+  ];
+
+  // 🧠 Initial values (email NEVER resets)
+  const initialValues = otpSent ? { email, otp: "" } : { email };
+
+  // ✅ Validation
+  const validationSchema = Yup.object({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    ...(otpSent && {
+      otp: Yup.string()
+        .matches(/^\d{4}$/, "OTP must be 4 digits")
+        .required("OTP is required"),
+    }),
+  });
+
+  // 📤 Send OTP
+  const handleSendOtp = async (email: string) => {
     setError("");
+    setSuccess("");
 
     try {
-      await login(email, password);
+      await axios.post("http://localhost:8001/api/send_otp", { email });
+      setEmail(email);
+      setOtpSent(true);
+      setResendTimer(60);
+      setSuccess("OTP sent to your email!");
+    } catch {
+      setError("Failed to send OTP. Please try again.");
+    }
+  };
+
+  // 🔐 Verify OTP
+  const handleVerifyOtp = async (otp: string) => {
+    setError("");
+    setSuccess("");
+
+    try {
+      await axios.post("http://localhost:8001/api/verify_otp", { email, otp });
+      await login(email, otp);
       navigate(from, { replace: true });
     } catch {
-      setError("Failed to log in. Please check your credentials.");
+      setError("Invalid OTP. Please try again.");
     }
+  };
+
+  // 🚀 Submit handler
+  const handleSubmit = async (values: Record<string, string>) => {
+    if (!otpSent) {
+      await handleSendOtp(values.email);
+    } else {
+      await handleVerifyOtp(values.otp);
+    }
+  };
+
+  // 🔁 Resend OTP
+  const handleResendOtp = async () => {
+    if (resendTimer > 0 || !email) return;
+    await handleSendOtp(email);
   };
 
   return (
@@ -42,87 +118,43 @@ export const Login = () => {
       title="Sign in"
       subtitle="Enter your credentials to access your account"
     >
-      {/* Lock Icon */}
       <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
-        <Avatar
-          sx={{
-            bgcolor: "primary.main",
-            width: 56,
-            height: 56,
-          }}
-        >
+        <Avatar sx={{ bgcolor: "primary.main", width: 56, height: 56 }}>
           <LockOutlinedIcon fontSize="large" />
         </Avatar>
       </Box>
 
-      {/* Error Message */}
-      {error && (
-        <Typography color="error" align="center" sx={{ mb: 2 }}>
-          {error}
-        </Typography>
-      )}
-
-      {/* Form */}
-      <Box
-        component="form"
+      <DynamicForm
+        fields={fields}
+        initialValues={initialValues}
+        validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        autoComplete="on"
-        sx={{
-          "& .MuiTextField-root": {
-            mb: 2, // 👈 prevents Chrome popup overlap
-          },
-        }}
-      >
-        {/* Email */}
-        <TextField
-          fullWidth
-          label="Email Address"
-          type="email"
-          name="username"
-          autoComplete="username"
-          spellCheck={false}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={isLoading}
-        />
+        isLoading={isLoading}
+        error={error}
+        success={success}
+        submitText={otpSent ? "Verify OTP" : "Send OTP"}
+        extraLink={
+          !otpSent
+            ? { text: "Don't have an account? Sign Up", to: "/register" }
+            : undefined
+        }
+      />
 
-        {/* Password */}
-        <TextField
-          fullWidth
-          label="Password"
-          type="password"
-          name="current-password"
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          disabled={isLoading}
-        />
-
-        {/* Submit */}
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          size="large"
-          disabled={isLoading}
-          sx={{
-            mt: 1,
-            mb: 2,
-            height: 48,
-            fontWeight: 600,
-            textTransform: "uppercase",
-          }}
-        >
-          {isLoading ? <CircularProgress size={24} /> : "Sign In"}
-        </Button>
-
-        {/* Register Link */}
-        <Grid container justifyContent="center">
-          <Link component={RouterLink} to="/register" variant="body2">
-            Don't have an account? Sign Up
-          </Link>
-        </Grid>
-      </Box>
+      {otpSent && (
+        <Box sx={{ mt: 2, textAlign: "center" }}>
+          <Typography variant="body2" color="text.secondary">
+            Didn’t receive OTP?{" "}
+            <Button
+              onClick={handleResendOtp}
+              disabled={resendTimer > 0}
+              size="small"
+              sx={{ p: 0, minWidth: "auto" }}
+            >
+              Resend {resendTimer > 0 && `(${resendTimer}s)`}
+            </Button>
+          </Typography>
+        </Box>
+      )}
     </AuthContainer>
   );
 };

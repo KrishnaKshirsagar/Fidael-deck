@@ -1,13 +1,19 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Layout } from "../layouts/MainLayout.tsx";
+import { Layout } from "../layouts/MainLayout";
 import { Login } from "../pages/auth/Login";
 import { Dashboard } from "../pages/dashboard/Dashboard";
-import { ProtectedRoute } from "./ProtectedRoute.tsx";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const AppRoutes = () => {
   return (
     <Routes>
+      {/* Default route */}
+      <Route path="/" element={<Navigate to="/login" replace />} />
+
+      {/* Public route */}
       <Route path="/login" element={<Login />} />
+
+      {/* Protected routes */}
       <Route
         path="/"
         element={
@@ -18,8 +24,10 @@ export const AppRoutes = () => {
       >
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Route>
+
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 };
