@@ -15,7 +15,7 @@ import { useTheme, useMediaQuery } from "@mui/material";
 
 const menuItems = [
   { text: "Dashboard", icon: <DashboardIcon />, path: "/dashboard" },
-  { text: "Users", icon: <PeopleIcon />, path: "/users" },
+  { text: "Project", icon: <PeopleIcon />, path: "/projects" },
   { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
 ];
 

@@ -18,7 +18,7 @@ const STATIC_OTP = "1234";
 /**
  * SEND OTP (STATIC)
  */
-server.post("/api/send_otp", (req, res) => {
+server.post("/api/auth/send_otp", (req, res) => {
   const { email } = req.body;
 
   if (!email) {
@@ -50,7 +50,7 @@ server.post("/api/send_otp", (req, res) => {
 /**
  * VERIFY OTP
  */
-server.post("/api/verify_otp", (req, res) => {
+server.post("/api/auth/verify_otp", (req, res) => {
   const { email, otp } = req.body;
 
   if (!email || !otp) {

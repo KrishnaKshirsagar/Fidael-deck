@@ -1,22 +1,33 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Avatar, Box, Typography, Button } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import * as Yup from "yup";
-import axios from "axios";
 
 import { useAuth } from "../../contexts/AuthContext";
 import { AuthContainer } from "../../components/auth/AuthContainer";
 import { DynamicForm, type Field } from "../../components/forms/DynamicForm";
+import {
+  useSendOtpMutation,
+  useVerifyOtpMutation,
+} from "../../store/features/api/authApi";
+import { useSnackbar } from "../../contexts/SnackbarContext";
 
 export const Login = () => {
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  // const [error, setError] = useState("");
+  // const [success, setSuccess] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
   const [email, setEmail] = useState("");
 
-  const { login, isLoading } = useAuth();
+  const [sendOtp, { isLoading: isSendingOtp }] = useSendOtpMutation();
+  const [verifyOtp, { isLoading: isVerifyingOtp }] = useVerifyOtpMutation();
+  const { showMessage } = useSnackbar();
+
+  const isLoading = isSendingOtp || isVerifyingOtp;
+
+  const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -70,31 +81,32 @@ export const Login = () => {
 
   // 📤 Send OTP
   const handleSendOtp = async (email: string) => {
-    setError("");
-    setSuccess("");
-
     try {
-      await axios.post("http://localhost:8001/api/send_otp", { email });
+      await sendOtp({ email }).unwrap();
       setEmail(email);
       setOtpSent(true);
       setResendTimer(60);
-      setSuccess("OTP sent to your email!");
-    } catch {
-      setError("Failed to send OTP. Please try again.");
+      showMessage("OTP sent to your email!");
+    } catch (error) {
+      showMessage(
+        (error as any).data.message || "Failed to send OTP. Please try again.",
+        "error",
+      );
     }
   };
 
   // 🔐 Verify OTP
   const handleVerifyOtp = async (otp: string) => {
-    setError("");
-    setSuccess("");
-
     try {
-      await axios.post("http://localhost:8001/api/verify_otp", { email, otp });
-      await login(email, otp);
+      const response = await verifyOtp({ email, otp }).unwrap();
+      await login(email, response.token);
+      showMessage("Login successful!");
       navigate(from, { replace: true });
-    } catch {
-      setError("Invalid OTP. Please try again.");
+    } catch (error) {
+      showMessage(
+        (error as any).data.message || "Invalid OTP. Please try again.",
+        "error",
+      );
     }
   };
 
@@ -130,8 +142,8 @@ export const Login = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
         isLoading={isLoading}
-        error={error}
-        success={success}
+        error=""
+        success=""
         submitText={otpSent ? "Verify OTP" : "Send OTP"}
         extraLink={
           !otpSent
