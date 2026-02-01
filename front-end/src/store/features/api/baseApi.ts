@@ -19,5 +19,5 @@ export const baseApi = createApi({
     },
   }),
   endpoints: () => ({}), // Endpoints are injected from other slices
-  tagTypes: [], // Define tag types for cache invalidation
+  tagTypes: ["Projects", "Project"], // Define tag types for cache invalidation
 });

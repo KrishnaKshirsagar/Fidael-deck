@@ -86,6 +86,87 @@ server.post("/api/auth/verify_otp", (req, res) => {
   });
 });
 
+// Add these routes after the existing auth routes in server.js
+
+// Projects API
+server.get("/api/projects", (req, res) => {
+  const { status, search } = req.query;
+  let projects = router.db.get("projects").value() || [];
+
+  // Filter by status if provided
+  if (status) {
+    projects = projects.filter((project) => project.status === status);
+  }
+
+  // Search functionality
+  if (search) {
+    const searchLower = search.toLowerCase();
+    projects = projects.filter(
+      (project) =>
+        project.projectName.toLowerCase().includes(searchLower) ||
+        project.client.toLowerCase().includes(searchLower) ||
+        project.city.toLowerCase().includes(searchLower),
+    );
+  }
+
+  res.json(projects);
+});
+
+server.get("/api/projects/:id", (req, res) => {
+  const project = router.db.get("projects").find({ id: req.params.id }).value();
+  if (project) {
+    res.json(project);
+  } else {
+    res.status(404).json({ error: "Project not found" });
+  }
+});
+
+server.post("/api/projects", (req, res) => {
+  try {
+    const newProject = {
+      id: Date.now().toString(),
+      ...req.body,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    router.db.get("projects").push(newProject).write();
+    res.status(201).json(newProject);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create project" });
+  }
+});
+
+server.put("/api/projects/:id", (req, res) => {
+  try {
+    const project = router.db.get("projects").find({ id: req.params.id });
+
+    if (!project.value()) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+
+    const updatedProject = {
+      ...project.value(),
+      ...req.body,
+      updatedAt: new Date().toISOString(),
+    };
+
+    project.assign(updatedProject).write();
+    res.json(updatedProject);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update project" });
+  }
+});
+
+server.delete("/api/projects/:id", (req, res) => {
+  try {
+    router.db.get("projects").remove({ id: req.params.id }).write();
+    res.json({ message: "Project deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete project" });
+  }
+});
+
 server.use(router);
 
 const PORT = 8001;

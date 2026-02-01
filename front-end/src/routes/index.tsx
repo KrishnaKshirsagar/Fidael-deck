@@ -3,7 +3,7 @@ import { Layout } from "../layouts/MainLayout";
 import { Login } from "../pages/auth/Login";
 import { Dashboard } from "../pages/dashboard/Dashboard";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { Projects } from "../pages/projects/Projects";
+import Projects from "../pages/projects/Projects";
 
 export const AppRoutes = () => {
   return (
