@@ -178,6 +178,30 @@
       "created_by": "Admin",
       "updated_at": "2024-06-25",
       "updated_by": "Rohit Khanna"
+    },
+    {
+      "id": "1770009503040",
+      "customer_name": "Krishna",
+      "contact_person": "akdkd",
+      "contact_number": "775",
+      "email": "krishna.kshirsagar@tech-trail.com",
+      "designation": "ffff",
+      "project_name": "ff",
+      "location": "Latur",
+      "city": "f",
+      "pincode": "",
+      "max_floor": 1,
+      "installation_cost_type": "fixed_cost",
+      "installation_cost": 0,
+      "supervisor_name": "ss",
+      "supervisor_mobile": "dd",
+      "pmc_supervisior_name": "dd",
+      "pmc_supervisior_mobile": "ss",
+      "project_start_date": "2026-02-03",
+      "project_end_date": "2026-02-14",
+      "status": "In Progress",
+      "createdAt": "2026-02-02T05:18:23.041Z",
+      "updatedAt": "2026-02-02T05:18:23.041Z"
     }
   ]
 }

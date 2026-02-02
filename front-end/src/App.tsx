@@ -2,7 +2,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AppRoutes } from "./routes";
+import AppRoutes from "./routes";
 import { SnackbarProvider } from "./components/common/Snackbar";
 
 // Create a client

@@ -1,34 +1,5 @@
+import type { Project } from "../../../types/project";
 import { baseApi } from "./baseApi";
-import { ProjectStatus } from "../../../types/project";
-
-export interface Project {
-  id: string;
-  projectId: string;
-  projectName: string;
-  client: string;
-  city: string;
-  totalPersonHours: number;
-  supervisor: string;
-  phone: string;
-  status: ProjectStatus;
-  expectedStartDate: string;
-  expectedEndDate: string;
-  createdAt: string;
-  updatedAt: string;
-  // Add other project fields as needed
-}
-
-export interface ProjectRequest {
-  projectName: string;
-  client: string;
-  city: string;
-  totalPersonHours: number;
-  supervisor: string;
-  phone: string;
-  status: ProjectStatus;
-  expectedStartDate: string;
-  expectedEndDate: string;
-}
 
 export const projectsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -47,12 +18,12 @@ export const projectsApi = baseApi.injectEndpoints({
       },
     ),
 
-    getProjectById: builder.query<Project, string>({
+    getProjectById: builder.query<Project, string | number>({
       query: (id) => `/projects/${id}`,
       providesTags: (_result, _error, id) => [{ type: "Project", id }],
     }),
 
-    createProject: builder.mutation<Project, ProjectRequest>({
+    createProject: builder.mutation<Project, Project>({
       query: (project) => ({
         url: "/projects",
         method: "POST",
@@ -63,7 +34,7 @@ export const projectsApi = baseApi.injectEndpoints({
 
     updateProject: builder.mutation<
       Project,
-      { id: string; changes: Partial<ProjectRequest> }
+      { id: string | number; changes: Partial<Project> }
     >({
       query: ({ id, changes }) => ({
         url: `/projects/${id}`,

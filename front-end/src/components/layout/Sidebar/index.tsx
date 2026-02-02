@@ -52,7 +52,10 @@ export const Sidebar = ({ open, onClose }: SidebarProps) => {
     >
       <List>
         {menuItems.map((item) => {
-          const isActive = location.pathname === item.path;
+          const isActive =
+            location.pathname === item.path ||
+            (item.path !== "/" &&
+              location.pathname.startsWith(`${item.path}/`));
 
           return (
             <ListItem key={item.text} disablePadding>

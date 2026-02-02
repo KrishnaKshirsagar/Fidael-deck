@@ -103,8 +103,8 @@ server.get("/api/projects", (req, res) => {
     const searchLower = search.toLowerCase();
     projects = projects.filter(
       (project) =>
-        project.projectName.toLowerCase().includes(searchLower) ||
-        project.client.toLowerCase().includes(searchLower) ||
+        project.project_name.toLowerCase().includes(searchLower) ||
+        project.location.toLowerCase().includes(searchLower) ||
         project.city.toLowerCase().includes(searchLower),
     );
   }
@@ -113,7 +113,11 @@ server.get("/api/projects", (req, res) => {
 });
 
 server.get("/api/projects/:id", (req, res) => {
-  const project = router.db.get("projects").find({ id: req.params.id }).value();
+  const project = router.db
+    .get("projects")
+    .find({ project_id: Number(req.params.id) })
+    .value();
+
   if (project) {
     res.json(project);
   } else {
@@ -138,33 +142,31 @@ server.post("/api/projects", (req, res) => {
 });
 
 server.put("/api/projects/:id", (req, res) => {
-  try {
-    const project = router.db.get("projects").find({ id: req.params.id });
+  const project = router.db
+    .get("projects")
+    .find({ project_id: Number(req.params.id) });
 
-    if (!project.value()) {
-      return res.status(404).json({ error: "Project not found" });
-    }
-
-    const updatedProject = {
-      ...project.value(),
-      ...req.body,
-      updatedAt: new Date().toISOString(),
-    };
-
-    project.assign(updatedProject).write();
-    res.json(updatedProject);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to update project" });
+  if (!project.value()) {
+    return res.status(404).json({ error: "Project not found" });
   }
+
+  project
+    .assign({
+      ...req.body,
+      updated_at: new Date().toISOString(),
+    })
+    .write();
+
+  res.json(project.value());
 });
 
 server.delete("/api/projects/:id", (req, res) => {
-  try {
-    router.db.get("projects").remove({ id: req.params.id }).write();
-    res.json({ message: "Project deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to delete project" });
-  }
+  router.db
+    .get("projects")
+    .remove({ project_id: Number(req.params.id) })
+    .write();
+
+  res.json({ message: "Project deleted successfully" });
 });
 
 server.use(router);

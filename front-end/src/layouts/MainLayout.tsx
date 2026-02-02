@@ -32,11 +32,12 @@ export const Layout = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          width: { xs: "100%", sm: `calc(100% - 220px)` },
+          width: "100%",
           ml: { sm: "220px" },
           mt: { xs: "56px", sm: "64px" },
-          p: 0,
+          p: 3,
           minHeight: { xs: "calc(100vh - 56px)", sm: "calc(100vh - 64px)" },
+          maxWidth: { sm: `calc(100% - 220px)` },
         }}
       >
         <Outlet />

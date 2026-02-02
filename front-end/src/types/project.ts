@@ -10,7 +10,7 @@ export enum ProjectStatus {
 export type InstallationCostType = "fixed_cost" | "lumbsum" | "percentage"; // adjust as per DB ENUM
 
 export interface Project {
-  project_id?: number;
+  project_id?: number | string;
 
   project_name?: string;
   location?: string;
@@ -45,16 +45,3 @@ export interface Project {
   updated_at?: string; // ISO datetime
   updated_by?: number;
 }
-
-// export interface ProjectFormData {
-//   projectId: string;
-//   projectName: string;
-//   client: string;
-//   city: string;
-//   totalPersonHours: number;
-//   supervisor: string;
-//   phone: string;
-//   status: ProjectStatus;
-//   expectedStartDate: string;
-//   expectedEndDate: string;
-// }
