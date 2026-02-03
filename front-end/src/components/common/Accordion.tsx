@@ -1,75 +1,73 @@
-import { useState } from "react";
-import { Box, Typography, Collapse, IconButton, Paper } from "@mui/material";
-import type { PaperProps } from "@mui/material/Paper";
+import React from "react";
 import {
-  ExpandMore as ExpandMoreIcon,
-  ExpandLess as ExpandLessIcon,
-} from "@mui/icons-material";
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+  Box,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-interface AccordionProps extends PaperProps {
+interface AppAccordionProps {
+  id: string;
   title: string;
-  defaultExpanded?: boolean;
-  children: React.ReactNode;
+  expanded: boolean;
+  onToggle: (id: string) => void;
   actions?: React.ReactNode;
+  children: React.ReactNode;
 }
 
-export const Accordion = ({
+const AppAccordion: React.FC<AppAccordionProps> = ({
+  id,
   title,
-  defaultExpanded = false,
-  children,
+  expanded,
+  onToggle,
   actions,
-  ...paperProps
-}: AccordionProps) => {
-  const [expanded, setExpanded] = useState(defaultExpanded);
-
-  const toggleExpanded = () => {
-    setExpanded(!expanded);
-  };
-
+  children,
+}) => {
   return (
-    <Paper elevation={2} sx={{ mb: 2, overflow: "hidden" }} {...paperProps}>
-      <Box
+    <Accordion
+      expanded={expanded}
+      onChange={() => onToggle(id)}
+      elevation={2}
+      sx={{
+        mb: 2,
+        "&:before": { display: "none" },
+      }}
+    >
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />} // ✅ NOT IconButton
         sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          p: 2,
-          backgroundColor: (theme) =>
-            expanded ? theme.palette.primary.main : theme.palette.grey[100],
-          color: (theme) =>
-            expanded ? theme.palette.primary.contrastText : "inherit",
-          cursor: "pointer",
+          backgroundColor: expanded ? "primary.main" : "grey.200",
+          color: expanded ? "primary.contrastText" : "text.primary",
           "&:hover": {
-            backgroundColor: (theme) =>
-              expanded ? theme.palette.primary.dark : theme.palette.grey[200],
+            backgroundColor: expanded ? "primary.dark" : "grey.300",
           },
         }}
-        onClick={toggleExpanded}
       >
-        <Typography variant="h6" component="div">
-          {title}
-        </Typography>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          {actions}
-          <IconButton
-            size="small"
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleExpanded();
-            }}
-            sx={{
-              color: expanded ? "inherit" : "text.primary",
-            }}
-          >
-            {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          width="100%"
+        >
+          <Typography variant="h6">{title}</Typography>
+
+          {actions && (
+            <Box
+              display="flex"
+              gap={1}
+              onClick={(e) => e.stopPropagation()} // ✅ keep accordion from toggling
+            >
+              {actions}
+            </Box>
+          )}
         </Box>
-      </Box>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <Box sx={{ p: 3 }}>{children}</Box>
-      </Collapse>
-    </Paper>
+      </AccordionSummary>
+
+      <AccordionDetails sx={{ p: 3 }}>{children}</AccordionDetails>
+    </Accordion>
   );
 };
 
-export default Accordion;
+export default AppAccordion;

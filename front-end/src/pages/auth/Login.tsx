@@ -184,7 +184,7 @@ import { DynamicForm, type Field } from "../../components/forms/DynamicForm";
 import {
   useSendOtpMutation,
   useVerifyOtpMutation,
-} from "../../store/features/api/authApi";
+} from "../../store/features/auth/authApi";
 import { useSnackbar } from "../../contexts/SnackbarContext";
 
 /* -------------------- Form Types -------------------- */

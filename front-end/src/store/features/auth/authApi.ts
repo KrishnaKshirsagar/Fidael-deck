@@ -1,4 +1,4 @@
-import { baseApi } from "./baseApi";
+import { baseApi } from "../api/baseApi";
 
 export interface AuthResponse {
   token: string;

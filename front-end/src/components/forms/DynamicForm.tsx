@@ -197,6 +197,7 @@ import {
 } from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { Formik, Form as FormikForm, type FormikHelpers } from "formik";
+import { useNavigate } from "react-router-dom";
 
 /* ---------------------------------- */
 /* Field definition */
@@ -248,6 +249,7 @@ export function DynamicForm<T extends Record<string, any>>({
   submitText = "Submit",
   singleColumn = false,
 }: DynamicFormProps<T>) {
+  const navigate = useNavigate(); // 👈 ADD THIS
   return (
     <Formik<T>
       enableReinitialize
@@ -371,15 +373,31 @@ export function DynamicForm<T extends Record<string, any>>({
           </Box>
 
           {/* SUBMIT */}
-          <Box sx={{ mt: 4 }}>
+          {/* ACTION BUTTONS */}
+          <Box
+            sx={{
+              mt: 4,
+              display: "flex",
+              gap: 2,
+              justifyContent: "flex-start",
+            }}
+          >
             <Button
               type="submit"
               variant="contained"
-              fullWidth={singleColumn}
               disabled={isLoading}
               startIcon={isLoading ? <CircularProgress size={20} /> : null}
             >
               {submitText}
+            </Button>
+
+            <Button
+              variant="outlined"
+              color="inherit"
+              disabled={isLoading}
+              onClick={() => navigate(-1)} // 👈 BACK
+            >
+              Cancel
             </Button>
           </Box>
         </FormikForm>

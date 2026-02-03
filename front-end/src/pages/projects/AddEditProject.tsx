@@ -3,11 +3,18 @@ import {
   useCreateProjectMutation,
   useGetProjectByIdQuery,
   useUpdateProjectMutation,
-} from "../../store/features/api/projectsApi";
+} from "../../store/features/projects/projectsApi";
 import { Box, CircularProgress } from "@mui/material";
 import * as Yup from "yup";
+
+import AppAccordion from "../../components/common/Accordion";
 import { DynamicForm, type Field } from "../../components/forms/DynamicForm";
 import { ProjectStatus, type Project } from "../../types/project";
+import { useState } from "react";
+import MaterialsTable from "../../components/tables/MaterialsTable";
+import LaboursTable from "../../components/tables/LaboursTable";
+import ToolsTicketsTable from "../../components/tables/ToolsTicketsTable";
+import DocumentsTable from "../../components/tables/DocumentsTable";
 
 /* ---------------------------------- */
 /* Initial Values */
@@ -68,11 +75,7 @@ const fields: Field[] = [
       { label: "Percentage", value: "percentage" },
     ],
   },
-  {
-    name: "installation_cost",
-    label: "Installation Cost",
-    type: "number",
-  },
+  { name: "installation_cost", label: "Installation Cost", type: "number" },
 
   { name: "supervisor_name", label: "Supervisor Name" },
   { name: "supervisor_mobile", label: "Supervisor Mobile" },
@@ -86,11 +89,11 @@ const fields: Field[] = [
     name: "status",
     label: "Status",
     type: "select",
+    required: true,
     options: Object.values(ProjectStatus).map((s) => ({
       label: s,
       value: s,
     })),
-    required: true,
   },
 ];
 
@@ -111,11 +114,15 @@ export default function AddEditProject() {
   const { project_id } = useParams<{ project_id: string }>();
   const navigate = useNavigate();
 
+  const [expanded, setExpanded] = useState<string | false>("materials");
+
+  const handleToggle = (id: string) => {
+    setExpanded((prev) => (prev === id ? false : id));
+  };
+
   const { data: project, isLoading: isFetching } = useGetProjectByIdQuery(
     project_id!,
-    {
-      skip: !project_id,
-    },
+    { skip: !project_id },
   );
 
   const [createProject, { isLoading: isCreating }] = useCreateProjectMutation();
@@ -142,6 +149,7 @@ export default function AddEditProject() {
     <Box>
       <h2>{project_id ? "Edit Project" : "Add Project"}</h2>
 
+      {/* -------- FORM (UNCHANGED) -------- */}
       <DynamicForm<Project>
         fields={fields}
         initialValues={project ?? emptyProject}
@@ -150,6 +158,64 @@ export default function AddEditProject() {
         isLoading={isCreating || isUpdating}
         submitText={project_id ? "UPDATE PROJECT" : "ADD PROJECT"}
       />
+
+      {/* -------- ACCORDION GROUP (EDIT MODE ONLY) -------- */}
+      {project_id && (
+        <Box mt={4}>
+          <AppAccordion
+            id="materials"
+            title="MATERIALS"
+            expanded={expanded === "materials"}
+            onToggle={handleToggle}
+            children={
+              <MaterialsTable
+                projectId={project_id!}
+                expanded={expanded === "materials"}
+              />
+            }
+          ></AppAccordion>
+
+          <AppAccordion
+            id="labours"
+            title="LABOURS"
+            expanded={expanded === "labours"}
+            onToggle={handleToggle}
+            children={
+              <LaboursTable
+                projectId={project_id!}
+                expanded={expanded === "labours"}
+              />
+            }
+          >
+            {/* Labours content */}
+          </AppAccordion>
+
+          <AppAccordion
+            id="toolsTickets"
+            title="TOOLS & TACKLES"
+            expanded={expanded === "toolsTickets"}
+            onToggle={handleToggle}
+            children={
+              <ToolsTicketsTable
+                projectId={project_id!}
+                expanded={expanded === "toolsTickets"}
+              />
+            }
+          ></AppAccordion>
+
+          <AppAccordion
+            id="documents"
+            title="DOCUMENTS & CERTIFICATES"
+            expanded={expanded === "documents"}
+            onToggle={handleToggle}
+          >
+            <DocumentsTable
+              projectId={project_id!}
+              expanded={expanded === "documents"}
+            />
+          </AppAccordion>
+        </Box>
+      )}
     </Box>
   );
 }

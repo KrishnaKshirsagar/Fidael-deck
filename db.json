@@ -178,30 +178,350 @@
       "created_by": "Admin",
       "updated_at": "2024-06-25",
       "updated_by": "Rohit Khanna"
+    }
+  ],
+  "materials": [
+    {
+      "material_id": 101,
+      "material_name": "Cement",
+      "installation_cost": 250000,
+      "consumed_qty": 180,
+      "total_qty": 300,
+      "consumed_percent": 60,
+      "updated_by": "Amit Sharma",
+      "updated_at": "2024-07-12",
+      "project_id": "1"
     },
     {
-      "id": "1770009503040",
-      "customer_name": "Krishna",
-      "contact_person": "akdkd",
-      "contact_number": "775",
-      "email": "krishna.kshirsagar@tech-trail.com",
-      "designation": "ffff",
-      "project_name": "ff",
-      "location": "Latur",
-      "city": "f",
-      "pincode": "",
-      "max_floor": 1,
-      "installation_cost_type": "fixed_cost",
-      "installation_cost": 0,
-      "supervisor_name": "ss",
-      "supervisor_mobile": "dd",
-      "pmc_supervisior_name": "dd",
-      "pmc_supervisior_mobile": "ss",
-      "project_start_date": "2026-02-03",
-      "project_end_date": "2026-02-14",
-      "status": "In Progress",
-      "createdAt": "2026-02-02T05:18:23.041Z",
-      "updatedAt": "2026-02-02T05:18:23.041Z"
+      "material_id": 102,
+      "material_name": "Steel Rods",
+      "installation_cost": 420000,
+      "consumed_qty": 95,
+      "total_qty": 150,
+      "consumed_percent": 63,
+      "updated_by": "Amit Sharma",
+      "updated_at": "2024-07-14",
+      "project_id": "1"
+    },
+    {
+      "material_id": 103,
+      "material_name": "Bricks",
+      "installation_cost": 180000,
+      "consumed_qty": 50000,
+      "total_qty": 80000,
+      "consumed_percent": 62,
+      "updated_by": "Neha Verma",
+      "updated_at": "2024-06-18",
+      "project_id": "2"
+    },
+    {
+      "material_id": 104,
+      "material_name": "Glass Panels",
+      "installation_cost": 350000,
+      "consumed_qty": 220,
+      "total_qty": 300,
+      "consumed_percent": 73,
+      "updated_by": "Neha Verma",
+      "updated_at": "2024-06-20",
+      "project_id": "2"
+    },
+    {
+      "material_id": 105,
+      "material_name": "Concrete Blocks",
+      "installation_cost": 275000,
+      "consumed_qty": 400,
+      "total_qty": 500,
+      "consumed_percent": 80,
+      "updated_by": "Rahul Mehta",
+      "updated_at": "2024-07-05",
+      "project_id": "3"
+    },
+    {
+      "material_id": 106,
+      "material_name": "Asphalt",
+      "installation_cost": 520000,
+      "consumed_qty": 310,
+      "total_qty": 600,
+      "consumed_percent": 52,
+      "updated_by": "Suresh Patil",
+      "updated_at": "2024-07-01",
+      "project_id": "4"
+    },
+    {
+      "material_id": 107,
+      "material_name": "Electrical Wiring",
+      "installation_cost": 120000,
+      "consumed_qty": 90,
+      "total_qty": 100,
+      "consumed_percent": 90,
+      "updated_by": "Kavita Rao",
+      "updated_at": "2024-01-15",
+      "project_id": "5"
+    },
+    {
+      "material_id": 108,
+      "material_name": "Automation Sensors",
+      "installation_cost": 460000,
+      "consumed_qty": 30,
+      "total_qty": 100,
+      "consumed_percent": 30,
+      "updated_by": "Arjun Reddy",
+      "updated_at": "2024-06-18",
+      "project_id": "6"
+    },
+    {
+      "material_id": 109,
+      "material_name": "Solar Panels",
+      "installation_cost": 880000,
+      "consumed_qty": 420,
+      "total_qty": 600,
+      "consumed_percent": 70,
+      "updated_by": "Manoj Singh",
+      "updated_at": "2024-07-10",
+      "project_id": "7"
+    },
+    {
+      "material_id": 110,
+      "material_name": "HVAC Units",
+      "installation_cost": 610000,
+      "consumed_qty": 40,
+      "total_qty": 160,
+      "consumed_percent": 25,
+      "updated_by": "Priya Nair",
+      "updated_at": "2024-06-30",
+      "project_id": "8"
+    },
+    {
+      "material_id": 111,
+      "material_name": "Tiles",
+      "installation_cost": 195000,
+      "consumed_qty": 720,
+      "total_qty": 800,
+      "consumed_percent": 90,
+      "updated_by": "Vikas Jain",
+      "updated_at": "2024-07-18",
+      "project_id": "9"
+    },
+    {
+      "material_id": 112,
+      "material_name": "Server Racks",
+      "installation_cost": 540000,
+      "consumed_qty": 25,
+      "total_qty": 150,
+      "consumed_percent": 17,
+      "updated_by": "Rohit Khanna",
+      "updated_at": "2024-06-25",
+      "project_id": "10"
+    }
+  ],
+  "labours": [
+    {
+      "labour_id": 201,
+      "name": "Staff A",
+      "mobile": "9999999900",
+      "type": "Supervisor",
+      "updated_by": "Admin",
+      "updated_at": "2025-01-10",
+      "project_id": "1"
+    },
+    {
+      "labour_id": 202,
+      "name": "Staff B",
+      "mobile": "9999999901",
+      "type": "Labour",
+      "updated_by": "Admin",
+      "updated_at": "2025-01-12",
+      "project_id": "1"
+    },
+    {
+      "labour_id": 203,
+      "name": "Staff C",
+      "mobile": "9999999902",
+      "type": "Labour",
+      "updated_by": "Admin",
+      "updated_at": "2025-01-11",
+      "project_id": "2"
+    },
+    {
+      "labour_id": 204,
+      "name": "Staff D",
+      "mobile": "9999999903",
+      "type": "Labour",
+      "updated_by": "Admin",
+      "updated_at": "2025-01-12",
+      "project_id": "2"
+    },
+    {
+      "labour_id": 205,
+      "name": "Ramesh Kumar",
+      "mobile": "8888888801",
+      "type": "Supervisor",
+      "updated_by": "Rahul Mehta",
+      "updated_at": "2024-07-05",
+      "project_id": "3"
+    },
+    {
+      "labour_id": 206,
+      "name": "Sanjay Patil",
+      "mobile": "8888888802",
+      "type": "Labour",
+      "updated_by": "Suresh Patil",
+      "updated_at": "2024-07-01",
+      "project_id": "4"
+    },
+    {
+      "labour_id": 207,
+      "name": "Karthik R",
+      "mobile": "8888888803",
+      "type": "Labour",
+      "updated_by": "Kavita Rao",
+      "updated_at": "2024-01-15",
+      "project_id": "5"
+    },
+    {
+      "labour_id": 208,
+      "name": "Mahesh Yadav",
+      "mobile": "8888888804",
+      "type": "Labour",
+      "updated_by": "Arjun Reddy",
+      "updated_at": "2024-06-18",
+      "project_id": "6"
+    },
+    {
+      "labour_id": 209,
+      "name": "Iqbal Khan",
+      "mobile": "8888888805",
+      "type": "Supervisor",
+      "updated_by": "Manoj Singh",
+      "updated_at": "2024-07-10",
+      "project_id": "7"
+    },
+    {
+      "labour_id": 210,
+      "name": "Anil Deshmukh",
+      "mobile": "8888888806",
+      "type": "Labour",
+      "updated_by": "Priya Nair",
+      "updated_at": "2024-06-30",
+      "project_id": "8"
+    },
+    {
+      "labour_id": 211,
+      "name": "Deepak Shah",
+      "mobile": "8888888807",
+      "type": "Labour",
+      "updated_by": "Vikas Jain",
+      "updated_at": "2024-07-18",
+      "project_id": "9"
+    },
+    {
+      "labour_id": 212,
+      "name": "Nitin Verma",
+      "mobile": "8888888808",
+      "type": "Supervisor",
+      "updated_by": "Rohit Khanna",
+      "updated_at": "2024-06-25",
+      "project_id": "10"
+    }
+  ],
+  "tools_tackles": [
+    {
+      "tool_id": 301,
+      "equipment_name": "Equipment A",
+      "equipment_type": "Fidael",
+      "make": "Fidael",
+      "usage": "Existing",
+      "quantity": 20,
+      "updated_by": "Admin",
+      "updated_at": "2025-01-10",
+      "project_id": "1"
+    },
+    {
+      "tool_id": 302,
+      "equipment_name": "Equipment B",
+      "equipment_type": "ABC",
+      "make": "ABC",
+      "usage": "Rented",
+      "quantity": 20,
+      "updated_by": "Admin",
+      "updated_at": "2025-01-12",
+      "project_id": "1"
+    },
+    {
+      "tool_id": 303,
+      "equipment_name": "Equipment C",
+      "equipment_type": "Fidael",
+      "make": "Fidael",
+      "usage": "New",
+      "quantity": 20,
+      "updated_by": "Admin",
+      "updated_at": "2025-01-10",
+      "project_id": "2"
+    },
+    {
+      "tool_id": 304,
+      "equipment_name": "Equipment D",
+      "equipment_type": "Fidael",
+      "make": "Fidael",
+      "usage": "Existing",
+      "quantity": 20,
+      "updated_by": "Admin",
+      "updated_at": "2025-01-12",
+      "project_id": "2"
+    }
+  ],
+  "documents": [
+    {
+      "doc_id": 401,
+      "project_id": "1",
+      "title": "Lift Installation Certificate",
+      "type": "Certificate",
+      "details": "Issued after final lift installation and safety inspection",
+      "file_url": "https://example.com/docs/lift-installation.pdf",
+      "status": "approved",
+      "updated_by": "Admin",
+      "updated_on": "2024-07-12",
+      "reviewed_by": "Quality Head",
+      "reviewed_on": "2024-07-13"
+    },
+    {
+      "doc_id": 402,
+      "project_id": "1",
+      "title": "Structural Drawing",
+      "type": "Drawing",
+      "details": "Final approved structural drawing",
+      "file_url": "https://example.com/docs/structure-drawing.pdf",
+      "status": "pending",
+      "updated_by": "Amit Sharma",
+      "updated_on": "2024-07-15",
+      "reviewed_by": null,
+      "reviewed_on": null
+    },
+    {
+      "doc_id": 403,
+      "project_id": "2",
+      "title": "Fire Safety NOC",
+      "type": "Certificate",
+      "details": "Issued by Fire Department",
+      "file_url": "https://example.com/docs/fire-noc.pdf",
+      "status": "approved",
+      "updated_by": "Neha Verma",
+      "updated_on": "2024-06-20",
+      "reviewed_by": "Safety Officer",
+      "reviewed_on": "2024-06-22"
+    },
+    {
+      "doc_id": 404,
+      "project_id": "3",
+      "title": "Completion Report",
+      "type": "Report",
+      "details": "Final project completion summary",
+      "file_url": "https://example.com/docs/completion-report.pdf",
+      "status": "approved",
+      "updated_by": "Rahul Mehta",
+      "updated_on": "2024-07-05",
+      "reviewed_by": "Project Director",
+      "reviewed_on": "2024-07-06"
     }
   ]
 }

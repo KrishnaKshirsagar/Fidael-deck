@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useGetProjectsQuery } from "../../store/features/api/projectsApi";
-import DynamicTable from "../../components/common/DynamicTable";
+import { useGetProjectsQuery } from "../../store/features/projects/projectsApi";
+import DynamicTable from "../../components/tables/DynamicTable";
 import Filters from "../../components/common/Filters";
 import { type Project, ProjectStatus } from "../../types/project";
 import { Button } from "@mui/material";

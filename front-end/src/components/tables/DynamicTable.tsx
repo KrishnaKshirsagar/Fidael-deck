@@ -16,15 +16,7 @@ import {
   TableSortLabel,
 } from "@mui/material";
 import * as XLSX from "xlsx";
-
-interface Column<T> {
-  id: string;
-  label: string;
-  minWidth?: number;
-  align?: "left" | "right" | "center";
-  format?: (value: any) => string | React.ReactNode;
-  renderCell?: (row: T) => React.ReactNode;
-}
+import type { Column } from "../../types/column";
 
 interface DynamicTableProps<T> {
   columns: Column<T>[];
